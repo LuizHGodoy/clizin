@@ -21,7 +21,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/seu-usuario/clizin"
+    "url": "https://github.com/LuizHGodoy/clizin"
   },
   "dependencies": {
     "chalk": "^4.1.2",
