@@ -1,0 +1,33 @@
+{
+  "name": "clizin",
+  "version": "1.0.0",
+  "description": "Gera mensagens de commit automaticamente com IA a partir de diffs do Git.",
+  "main": "index.js",
+  "bin": {
+    "clizin": "./index.js"
+  },
+  "scripts": {
+    "test": "echo \"No test yet.\""
+  },
+  "keywords": [
+    "git",
+    "commit",
+    "cli",
+    "openai",
+    "developer-tools",
+    "automated-commits"
+  ],
+  "author": "Luiz",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/seu-usuario/clizin"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^13.1.0",
+    "inquirer": "^8.2.6",
+    "openai": "^4.94.0",
+    "simple-git": "^3.27.0"
+  }
+}
