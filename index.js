@@ -11,9 +11,14 @@ const { loadOrCreateConfig } = require("./config");
 const git = simpleGit();
 const program = new Command();
 
+async function hasStagedChanges() {
+  const status = await git.status();
+  return status.staged.length > 0;
+}
+
 async function getGitDiff() {
   const diff = await git.diff(["--cached"]);
-  return diff || "No staged changes found.";
+  return diff || "";
 }
 
 async function generateCommitMessage(diffText, config, openai) {
@@ -53,13 +58,21 @@ program
     const config = await loadOrCreateConfig();
     const openai = new OpenAI({ apiKey: config.apiKey });
 
-    console.log(chalk.blue("\n🔍 Lendo diffs do git..."));
-    const diff = await getGitDiff();
+    const hasChanges = await hasStagedChanges();
 
-    if (!diff || diff.trim().replace(/\s/g, "") === "") {
-      console.log(chalk.yellow("Nenhum diff encontrado nos arquivos staged."));
+    if (!hasChanges) {
+      console.log(chalk.yellow("Nenhum arquivo staged encontrado."));
       return;
     }
+
+    const status = await git.status();
+    console.log(chalk.cyan("\n📄 Arquivos staged:"));
+    status.staged.forEach((file) => {
+      console.log(chalk.gray(`- ${file}`));
+    });
+
+    console.log(chalk.blue("\n🔍 Lendo diffs do git..."));
+    const diff = await getGitDiff();
 
     console.log(chalk.green("✅ Diff capturado, gerando commit..."));
 
