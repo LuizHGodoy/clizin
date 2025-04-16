@@ -56,7 +56,7 @@ program
     console.log(chalk.blue("\n🔍 Lendo diffs do git..."));
     const diff = await getGitDiff();
 
-    if (!diff || diff.length === 0) {
+    if (!diff || diff.trim().replace(/\s/g, "") === "") {
       console.log(chalk.yellow("Nenhum diff encontrado nos arquivos staged."));
       return;
     }
