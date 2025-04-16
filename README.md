@@ -4,6 +4,8 @@ Um CLI minimalista que usa IA para gerar mensagens de commit automáticas a part
 
 ## 🚀 Instalação
 
+![clizin-preview-croped](https://github.com/user-attachments/assets/5db75d10-c65f-4018-bbe3-3a3383c5e7e1)
+
 ```bash
 npm install -g clizin
 ```
