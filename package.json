@@ -1,6 +1,6 @@
 {
   "name": "clizin",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Gera mensagens de commit automaticamente com IA a partir de diffs do Git.",
   "main": "index.js",
   "bin": {
