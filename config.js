@@ -8,46 +8,39 @@ const CONFIG_PATH = path.join(os.homedir(), ".clizinrc.json");
 async function loadOrCreateConfig() {
   if (fs.existsSync(CONFIG_PATH)) {
     const raw = fs.readFileSync(CONFIG_PATH, "utf-8");
-    return JSON.parse(raw);
+    try {
+      const config = JSON.parse(raw);
+      if (!config.apiKeys) {
+        config.apiKeys = {};
+      }
+      return config;
+    } catch (error) {
+      console.error(chalk.red("Erro ao ler o arquivo de configuração. Criando um novo."));
+    }
   }
 
-  const { provider } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "provider",
-      message: "Escolha o provedor de IA:",
-      choices: ["openai"],
-    },
-  ]);
+  console.log(chalk.yellow("Configuração inicial não encontrada. Vamos configurar o clizin."));
 
-  const modelsByProvider = {
-    openai: ["gpt-3.5-turbo-0125", "gpt-4-turbo", "gpt-4"],
-  };
-
-  const { model } = await inquirer.prompt([
-    {
-      type: "list",
-      name: "model",
-      message: "Escolha o modelo:",
-      choices: modelsByProvider[provider],
-    },
-  ]);
-
-  const { apiKey } = await inquirer.prompt([
+  const { openaiApiKey } = await inquirer.prompt([
     {
       type: "password",
-      name: "apiKey",
-      message: "Cole sua chave da API:",
+      name: "openaiApiKey",
+      message: "Cole sua chave da API da OpenAI (pressione Enter para pular se não for usar OpenAI inicialmente):",
       mask: "*",
     },
   ]);
 
-  const config = { provider, model, apiKey };
+  const config = { 
+    apiKeys: openaiApiKey ? { openai: openaiApiKey } : {} 
+  };
+  
   fs.writeFileSync(CONFIG_PATH, JSON.stringify(config, null, 2));
+  console.log(chalk.green(`Configuração salva em: ${CONFIG_PATH}`))
 
   return config;
 }
 
 module.exports = {
   loadOrCreateConfig,
+  CONFIG_PATH,
 };
